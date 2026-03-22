@@ -18,3 +18,42 @@
 {
     font-size: 20px;
 }
+
+.honey-gradient {
+    background: linear-gradient(90deg, #785900 0%, #ffc107 100%);
+}
+
+.editorial-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.glass-nav {
+    background: rgba(255, 249, 230, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.hero-pattern {
+    background-color: #fff9e6;
+    background-image: radial-gradient(#785900 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    opacity: 0.1;
+    position: absolute;
+    inset: 0;
+}
+
+.rotate-2 {
+    transform: rotate(2deg);
+}
+
+.rotate-2:hover {
+    transform: rotate(0deg);
+}
+
+.transition-transform {
+    transition: transform 0.5s ease;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
