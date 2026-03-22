@@ -1,17 +1,22 @@
 import './App.css'
-import { Container } from '@mui/material'
+import { Box } from '@mui/material'
 import "./themes/style.css"
+import { LoginPage } from './pages/LoginPage'
+import { Footer } from './layouts/Footer'
 
-import { HeaderApp } from './layouts/Header'
-import { TopBarApp } from './layouts/TopBar'
 function App() {
-
   return (
-    <Container maxWidth={false} disableGutters sx={{ margin: 0 }}>
-      <TopBarApp />
-      <HeaderApp />
-
-    </Container >
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        bgcolor: 'background.default'
+      }}
+    >
+      <LoginPage />
+      <Footer />
+    </Box>
   )
 }
 

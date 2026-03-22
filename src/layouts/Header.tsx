@@ -1,6 +1,5 @@
 
 import { Box, Typography } from '@mui/material'
-import { Icon } from "../assets/icon"
 
 export const HeaderApp = () => {
     return (
