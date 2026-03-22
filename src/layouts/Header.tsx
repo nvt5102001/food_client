@@ -1,5 +1,7 @@
 import { Box, Typography, Container, IconButton } from '@mui/material'
 import { Icon } from "../assets/icon"
+import logo from "../assets/images/logo.png"
+
 
 export const HeaderApp = () => {
     return (
@@ -20,24 +22,12 @@ export const HeaderApp = () => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        py: 2
+                        py: 2,
+                        px: 8
                     }}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography
-                            variant="h5"
-                            component="div"
-                            sx={{
-                                color: 'primary.main',
-                                fontWeight: 700,
-                                fontStyle: 'italic',
-                                letterSpacing: '-0.05em',
-                                display: 'flex',
-                                alignItems: 'center'
-                            }}
-                        >
-                            Hổ Phách
-                        </Typography>
+                        <img src={logo} alt="logo" width={85} height={85} />
                     </Box>
 
                     <Box

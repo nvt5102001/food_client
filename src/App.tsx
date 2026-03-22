@@ -1,11 +1,33 @@
 import './App.css'
-import { Box, Container, Typography, Button, Grid, Card, CardMedia, CardContent, Chip, IconButton } from '@mui/material'
+import { Box, Container, Typography, Button, Grid, Card, CardMedia, CardContent, Chip, IconButton, TextField, Avatar, MenuItem } from '@mui/material'
 import "./themes/style.css"
 
 import { HeaderApp } from './layouts/Header'
 import { TopBarApp } from './layouts/TopBar'
 import { FooterApp } from './layouts/Footer'
 import { Icon } from './assets/icon'
+
+
+
+const testimonials = [
+  {
+    name: "Chị Thu Hằng",
+    initials: "TH",
+    content:
+      "Mật ong rừng rất thơm, đúng chuẩn mật tự nhiên. Tôi hay dùng để pha trà mỗi sáng, cảm thấy sức khỏe cải thiện rõ rệt."
+  },
+  {
+    name: "Anh Minh",
+    initials: "AM",
+    content:
+      "Mì chũ ở đây sợi dai, không bị nát như mua ở siêu thị. Nhà mình bọn trẻ con rất thích ăn mì xào bằng mì chũ này."
+  },
+  {
+    name: "Chị Phương Linh",
+    initials: "PL",
+    content:
+      "Đóng gói rất chuyên nghiệp và sang trọng, làm quà biếu đối tác cực kỳ hợp lý. Sẽ còn ủng hộ shop dài lâu."
+  }];
 
 function App() {
   return (
@@ -52,8 +74,8 @@ function App() {
               }}
             />
             <Typography variant="h2" sx={{ fontSize: { xs: '2.5rem', md: '4rem' }, mb: 3, color: 'text.primary' }}>
-              Đặc sản thiên nhiên - <br />
-              <Box component="span" sx={{ color: 'primary.main', fontStyle: 'italic' }}>Mật ong & Mì chũ sạch</Box>
+              Đặc sản thiên nhiên<br />
+              <Box component="span" sx={{ color: 'primary.main', fontStyle: 'italic' }}>Mật ong & Mì Chũ sạch</Box>
             </Typography>
             <Typography variant="body1" sx={{ color: 'text.secondary', mb: 5, fontSize: '1.1rem', maxWidth: '600px', mx: 'auto' }}>
               Tinh hoa từ thiên nhiên, an toàn cho mọi gia đình. Mang hương vị truyền thống từ Bắc Giang đến gian bếp hiện đại.
@@ -117,7 +139,7 @@ function App() {
                 </Box>
               </Box>
             </Grid>
-            <Grid size={{ xs: 12 }}>
+            <Grid size={{ xs: 12 }} sx={{ py: 10 }}>
               <Box sx={{ bgcolor: 'surfaceContainerHighest', p: { xs: 5, md: 8 }, borderRadius: 6, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: 6 }}>
                 <Box sx={{ flex: 1 }}>
                   <Icon.AgricultureIcon sx={{ color: 'primary.main', fontSize: 40, mb: 3 }} />
@@ -250,6 +272,141 @@ function App() {
             </Grid>
           </Grid>
         </Container>
+        {/* Testimonials */}
+        <Box sx={{ py: 12, bgcolor: "#f5f5f4" }}>
+          <Container maxWidth="lg">
+            <Box textAlign="center" mb={8}>
+              <Typography variant="h4" fontWeight="bold" gutterBottom>
+                Khách hàng nói gì?
+              </Typography>
+              <Typography color="text.secondary">
+                Hàng ngàn gia đình đã tin dùng sản phẩm của chúng tôi mỗi ngày.
+              </Typography>
+            </Box>
+
+            <Grid container spacing={4}>
+              {testimonials.map((item, index) => (
+                <Grid size={{ xs: 12, md: 4 }} key={index}>
+                  <Card sx={{ borderRadius: 4, boxShadow: 2 }}>
+                    <CardContent>
+                      {/* Stars */}
+                      <Box mb={2}>
+                        {"★★★★★"}
+                      </Box>
+
+                      <Typography
+                        variant="body2"
+                        sx={{ fontStyle: "italic", mb: 3 }}
+                        color="text.secondary"
+                      >
+                        "{item.content}"
+                      </Typography>
+
+                      <Box display="flex" alignItems="center" gap={2}>
+                        <Avatar>{item.initials}</Avatar>
+                        <Typography fontWeight="bold">
+                          {item.name}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
+
+        {/* Order Form */}
+        <Box sx={{ py: 16, px: 2 }} id="contact">
+          <Container maxWidth="md">
+            <Box
+              sx={{
+                p: { xs: 4, md: 8 },
+                borderRadius: "40px",
+                boxShadow: 5,
+                bgcolor: "#fafafa"
+              }}
+            >
+              <Box textAlign="center" mb={6}>
+                <Typography variant="h4" fontWeight="bold" gutterBottom>
+                  Đặt hàng ngay hôm nay
+                </Typography>
+                <Typography color="text.secondary">
+                  Để lại thông tin, chúng tôi sẽ liên hệ tư vấn và giao hàng tận nơi.
+                </Typography>
+              </Box>
+
+              <Grid container spacing={3}>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    fullWidth
+                    label="Họ và tên"
+                    placeholder="Nguyễn Văn A"
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    fullWidth
+                    label="Số điện thoại"
+                    placeholder="0123 456 789"
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12 }}>
+                  <TextField
+                    fullWidth
+                    label="Địa chỉ giao hàng"
+                    placeholder="Số nhà, tên đường..."
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12 }} >
+                  <TextField select fullWidth label="Chọn sản phẩm">
+                    <MenuItem value="honey1">Mật ong rừng</MenuItem>
+                    <MenuItem value="honey2">Mật ong hoa nhãn</MenuItem>
+                    <MenuItem value="noodle1">Mì chũ truyền thống</MenuItem>
+                    <MenuItem value="noodle2">Mì chũ khô cao cấp</MenuItem>
+                  </TextField>
+                </Grid>
+
+                <Grid size={{ xs: 12 }}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      py: 2,
+                      borderRadius: 3,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    Xác nhận đặt hàng
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Container>
+        </Box>
+
+        {/* Scroll to top */}
+        <Button
+          onClick={() =>
+            window.scrollTo({ top: 0, behavior: "smooth" })
+          }
+          sx={{
+            position: "fixed",
+            bottom: 40,
+            right: 40,
+            borderRadius: "50%",
+            minWidth: 50,
+            height: 50
+          }}
+          variant="contained"
+        >
+          ↑
+        </Button>
+
       </main>
 
       <FooterApp />
