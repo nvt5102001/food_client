@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap');
+
 .flex 
 {
     display: flex;
@@ -17,4 +19,28 @@
 .box__icon .MuiSvgIcon-root 
 {
     font-size: 20px;
+}
+
+.honey-gradient {
+    background: linear-gradient(135deg, #785900 0%, #ffc107 100%);
+}
+
+.editorial-shadow {
+    box-shadow: 0 20px 40px rgba(120, 89, 0, 0.1);
+}
+
+.glass-nav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(255, 249, 230, 0.8);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
