@@ -18,3 +18,17 @@
 {
     font-size: 20px;
 }
+
+.honey-gradient {
+    background: linear-gradient(135deg, #785900 0%, #ffc107 100%);
+}
+
+.editorial-shadow {
+    box-shadow: 0px 12px 32px rgba(44, 22, 14, 0.06);
+}
+
+body {
+    background-color: #fff9e6;
+    margin: 0;
+    min-height: 100vh;
+}
