@@ -1,8 +1,8 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface Palette {
-    tertiary: Palette['primary'];
+    tertiary: Palette["primary"];
     surfaceContainerLowest: string;
     surfaceContainerLow: string;
     surfaceContainer: string;
@@ -14,7 +14,9 @@ declare module '@mui/material/styles' {
     outlineVariant: string;
   }
   interface PaletteOptions {
-    tertiary?: PaletteOptions['primary'];
+    tertiary?: PaletteOptions["primary"];
+  }
+  interface PaletteOptions {
     surfaceContainerLowest?: string;
     surfaceContainerLow?: string;
     surfaceContainer?: string;
@@ -24,6 +26,7 @@ declare module '@mui/material/styles' {
     surfaceBright?: string;
     outline?: string;
     outlineVariant?: string;
+    tertiary?: PaletteOptions["primary"];
   }
 }
 
@@ -52,7 +55,7 @@ export const theme = createTheme({
     },
     text: {
       primary: "#1e1c0e",
-      secondary: "#4f4632", // on-surface-variant
+      secondary: "#4f4632",
     },
     surfaceContainerLowest: "#ffffff",
     surfaceContainerLow: "#faf4dc",
@@ -63,6 +66,7 @@ export const theme = createTheme({
     surfaceBright: "#fff9e6",
     outline: "#827660",
     outlineVariant: "#d4c5ab",
+    divider: "#d4c5ab",
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
@@ -91,7 +95,7 @@ export const theme = createTheme({
       fontWeight: 700,
     },
     button: {
-      textTransform: 'none',
+      textTransform: "none",
       fontWeight: 600,
     },
   },
