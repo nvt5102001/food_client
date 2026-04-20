@@ -25,7 +25,17 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MailIcon from "@mui/icons-material/Mail";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import ChatIcon from "@mui/icons-material/Chat";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import CloseIcon from "@mui/icons-material/Close";
 export const Icon = {
   LocalPhoneIcon,
   FacebookIcon,
@@ -53,4 +63,15 @@ export const Icon = {
   LocalPhone,
   Facebook,
   YouTube,
+  ExpandMoreIcon,
+  LocationOnIcon,
+  MailIcon,
+  InstagramIcon,
+  ChatIcon,
+  RemoveIcon,
+  AddIcon,
+  DeleteOutlineIcon,
+  CreditCardIcon,
+  AccountBalanceIcon,
+  CloseIcon,
 };

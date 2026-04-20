@@ -1,95 +1,99 @@
-import { AppBar, Box, Toolbar, Typography, IconButton, Container, Link } from '@mui/material';
-import { Icon } from '../assets/icon';
+import { Box, Typography, Container, IconButton } from "@mui/material";
+import { Icon } from "../assets/icon";
+import logo from "../assets/images/logo.png";
+import { NavLink } from "react-router-dom";
 
-const navLinks = [
-    { label: 'Trang chủ', href: '#' },
-    { label: 'Sản phẩm', href: '#', active: true },
-    { label: 'Câu chuyện', href: '#' },
-    { label: 'Liên hệ', href: '#' },
+const menus = [
+  { name: "Trang chủ", path: "/" },
+  { name: "Sản phẩm", path: "/products" },
+  { name: "Về chúng tôi", path: "/about" },
+  { name: "Liên hệ", path: "/contact" },
 ];
 
 export const HeaderApp = () => {
-    return (
-        <AppBar
-            position="fixed"
-            elevation={0}
-            className="glass-nav"
-            sx={{
-                borderBottom: '1px solid',
-                borderColor: 'rgba(120, 89, 0, 0.1)',
-                zIndex: (theme) => theme.zIndex.drawer + 1
-            }}
+  return (
+    <Box
+      component="header"
+      className="glass-nav"
+      sx={{
+        position: "fixed",
+        top: 0,
+        width: "100%",
+        zIndex: 50,
+        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      }}
+    >
+      <Container maxWidth="xl">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            py: 2,
+            px: 8,
+          }}
         >
-            <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-                    {/* Logo */}
-                    <Typography
-                        variant="h5"
-                        component="a"
-                        href="/"
-                        sx={{
-                            fontFamily: '"Be Vietnam Pro", sans-serif',
-                            fontWeight: 700,
-                            fontStyle: 'italic',
-                            color: 'primary.main',
-                            textDecoration: 'none',
-                            letterSpacing: '-0.05em',
-                        }}
-                    >
-                        Hổ Phách
-                    </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <img src={logo} alt="logo" width={85} height={85} />
+          </Box>
 
-                    {/* Desktop Navigation */}
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4 }}>
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.label}
-                                href={link.href}
-                                sx={{
-                                    fontFamily: '"Be Vietnam Pro", sans-serif',
-                                    fontWeight: 700,
-                                    fontSize: '1rem',
-                                    color: link.active ? 'primary.main' : 'text.primary',
-                                    opacity: link.active ? 1 : 0.7,
-                                    textDecoration: 'none',
-                                    borderBottom: link.active ? '2px solid' : 'none',
-                                    borderColor: 'primary.main',
-                                    pb: 0.5,
-                                    transition: 'all 0.3s',
-                                    '&:hover': {
-                                        opacity: 1,
-                                        color: 'primary.main',
-                                    },
-                                }}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                    </Box>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            {menus.map((menu) => {
+              return (
+                <Typography
+                  component={NavLink}
+                  key={menu.path}
+                  to={menu.path}
+                  sx={{
+                    fontWeight: 700,
+                    color: "primary.main",
+                    textDecoration: "none",
+                    pb: 0.5,
+                    "&.active": {
+                      borderBottom: "2px solid",
+                      borderColor: "primary.main",
+                    },
+                  }}
+                >
+                  {menu.name}
+                </Typography>
+              );
+            })}
+          </Box>
 
-                    {/* Action Icons */}
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                        <IconButton
-                            href="/login"
-                            sx={{
-                                color: 'primary.main',
-                                '&:hover': { backgroundColor: 'surfaceContainerHighest' }
-                            }}
-                        >
-                            <Icon.AccountCircleIcon />
-                        </IconButton>
-                        <IconButton
-                            href="/cart"
-                            sx={{
-                                color: 'primary.main',
-                                '&:hover': { backgroundColor: 'surfaceContainerHighest' }
-                            }}
-                        >
-                            <Icon.ShoppingCart />
-                        </IconButton>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
-    );
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <IconButton
+              color="primary"
+              sx={{ "&:hover": { bgcolor: "surfaceContainerHighest" } }}
+            >
+              <Icon.AccountCircleIcon />
+            </IconButton>
+            <IconButton
+              component={NavLink}
+              to="/carts"
+              color="primary"
+              sx={{ "&:hover": { bgcolor: "surfaceContainerHighest" } }}
+            >
+              <Icon.ShoppingCartIcon />
+            </IconButton>
+            <IconButton
+              color="primary"
+              sx={{
+                display: { xs: "flex", md: "none" },
+                "&:hover": { bgcolor: "surfaceContainerHighest" },
+              }}
+            >
+              <Icon.MenuIcon />
+            </IconButton>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
+  );
 };

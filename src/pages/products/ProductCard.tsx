@@ -1,5 +1,5 @@
 import { Box, Typography, Button, Chip } from '@mui/material';
-import { Icon } from '../assets/icon';
+import { Icon } from '../../assets/icon';
 
 interface ProductCardProps {
   image: string;
