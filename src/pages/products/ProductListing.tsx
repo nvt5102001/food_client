@@ -29,7 +29,7 @@ const fallbackProducts: Product[] = [
     product_id: 1,
     name: "Mì gạo Chũ",
     price: 70000,
-    image: michu,
+    image: "https://s3.evgcloud.net/dacsantuhuong/michu.png",
     description: "Sản xuất từ gạo tẻ ngon nguyên chất, không phụ gia.",
     unit: "1kg",
     badge: { label: "Best Seller", type: "bestseller" as const },
@@ -38,7 +38,7 @@ const fallbackProducts: Product[] = [
     product_id: 2,
     name: "Mật ong rừng Sơn Động",
     price: 50000,
-    image: matong,
+    image: "https://s3.evgcloud.net/dacsantuhuong/matong.png",
     description: "Mật ong tự nhiên 100% từ rừng nguyên sinh, hương vị đậm đà.",
     unit: "500ml",
     badge: { label: "Best Seller", type: "bestseller" as const },
@@ -49,7 +49,11 @@ export const ProductListing = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [addingId, setAddingId] = useState<string | number | null>(null);
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: "success" | "error" | "info" }>({
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: "success" | "error" | "info";
+  }>({
     open: false,
     message: "",
     severity: "success",
@@ -124,21 +128,36 @@ export const ProductListing = () => {
 
     // Filter by price
     result = result.filter((p) => {
-      const pPrice = typeof p.price === "number" ? p.price : parseFloat(p.price as string) || 0;
+      const pPrice =
+        typeof p.price === "number"
+          ? p.price
+          : parseFloat(p.price as string) || 0;
       return pPrice >= priceRange[0] && pPrice <= priceRange[1];
     });
 
     // Sort
     if (sortBy === "low-to-high") {
       result.sort((a, b) => {
-        const priceA = typeof a.price === "number" ? a.price : parseFloat(a.price as string) || 0;
-        const priceB = typeof b.price === "number" ? b.price : parseFloat(b.price as string) || 0;
+        const priceA =
+          typeof a.price === "number"
+            ? a.price
+            : parseFloat(a.price as string) || 0;
+        const priceB =
+          typeof b.price === "number"
+            ? b.price
+            : parseFloat(b.price as string) || 0;
         return priceA - priceB;
       });
     } else if (sortBy === "high-to-low") {
       result.sort((a, b) => {
-        const priceA = typeof a.price === "number" ? a.price : parseFloat(a.price as string) || 0;
-        const priceB = typeof b.price === "number" ? b.price : parseFloat(b.price as string) || 0;
+        const priceA =
+          typeof a.price === "number"
+            ? a.price
+            : parseFloat(a.price as string) || 0;
+        const priceB =
+          typeof b.price === "number"
+            ? b.price
+            : parseFloat(b.price as string) || 0;
         return priceB - priceA;
       });
     }
@@ -426,14 +445,32 @@ export const ProductListing = () => {
                   return (
                     <Grid key={prodId} size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
                       <ProductCard
-                        image={productService.getImageUrl(product.image, matong)}
+                        image={productService.getImageUrl(
+                          product.image,
+                          matong,
+                        )}
                         title={product.name || product.title || "Sản phẩm"}
-                        description={product.description || "Đặc sản truyền thống từ thiên nhiên."}
+                        description={
+                          product.description ||
+                          "Đặc sản truyền thống từ thiên nhiên."
+                        }
                         price={productService.formatPrice(product.price)}
-                        unit={product.unit || (product.quantity ? `${product.quantity} sản phẩm` : "Hộp")}
-                        badge={product.badge || { label: "Đặc sản", type: "bestseller" }}
+                        unit={
+                          product.unit ||
+                          (product.quantity
+                            ? `${product.quantity} sản phẩm`
+                            : "Hộp")
+                        }
+                        badge={
+                          product.badge || {
+                            label: "Đặc sản",
+                            type: "bestseller",
+                          }
+                        }
                         actionType="add"
-                        loading={addingId === (product.product_id || product.id)}
+                        loading={
+                          addingId === (product.product_id || product.id)
+                        }
                         onAddToCart={() => handleAddToCart(product)}
                       />
                     </Grid>
