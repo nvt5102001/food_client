@@ -1,10 +1,10 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import { API_URL } from "../configs";
 
-const baseURL = API_URL || "http://localhost:3000";
+export const BASE_URL: string = import.meta.env.VITE_API_URL || API_URL || "http://localhost:3000";
 
 const api = axios.create({
-  baseURL,
+  baseURL: BASE_URL,
   withCredentials: true, // Send and receive cookies automatically
   headers: {
     "Content-Type": "application/json",
