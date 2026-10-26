@@ -18,7 +18,6 @@ import {
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductCard } from "./ProductCard";
-import michu from "../../assets/images/products/michu.png";
 import matong from "../../assets/images/products/matong.png";
 import { productService, cartService } from "../../services";
 import type { Product } from "../../services";
