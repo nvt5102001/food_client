@@ -36,6 +36,12 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import CloseIcon from "@mui/icons-material/Close";
+import LockIcon from "@mui/icons-material/Lock";
+import PersonIcon from "@mui/icons-material/Person";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+
 export const Icon = {
   LocalPhoneIcon,
   FacebookIcon,
@@ -74,4 +80,9 @@ export const Icon = {
   CreditCardIcon,
   AccountBalanceIcon,
   CloseIcon,
+  LockIcon,
+  PersonIcon,
+  ArrowBackIcon,
+  LockResetIcon,
+  ReceiptLongIcon,
 };

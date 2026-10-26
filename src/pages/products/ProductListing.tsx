@@ -11,33 +11,140 @@ import {
   Select,
   MenuItem,
   FormControl,
+  CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
+import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { ProductCard } from "./ProductCard";
 import michu from "../../assets/images/products/michu.png";
 import matong from "../../assets/images/products/matong.png";
-const products = [
+import { productService, cartService } from "../../services";
+import type { Product } from "../../services";
+import { useAuth } from "../../context/AuthContext";
+
+const fallbackProducts: Product[] = [
   {
-    title: "Mỳ gạo Chũ ",
-    price: "70.000đ",
+    product_id: 1,
+    name: "Mì gạo Chũ",
+    price: 70000,
     image: michu,
-    tag: "BÁN CHẠY",
     description: "Sản xuất từ gạo tẻ ngon nguyên chất, không phụ gia.",
     unit: "1kg",
     badge: { label: "Best Seller", type: "bestseller" as const },
-    actionType: "add" as const,
   },
   {
-    title: "Mật ong rừng Sơn Động",
-    price: "50.000đ",
+    product_id: 2,
+    name: "Mật ong rừng Sơn Động",
+    price: 50000,
     image: matong,
     description: "Mật ong tự nhiên 100% từ rừng nguyên sinh, hương vị đậm đà.",
     unit: "500ml",
     badge: { label: "Best Seller", type: "bestseller" as const },
-    actionType: "add" as const,
   },
 ];
 
 export const ProductListing = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [addingId, setAddingId] = useState<string | number | null>(null);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: "success" | "error" | "info" }>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+  const [priceRange, setPriceRange] = useState<number[]>([0, 1000000]);
+  const [sortBy, setSortBy] = useState<string>("featured");
+
+  const { isAuthenticated, refreshCartCount } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const data = await productService.getProducts();
+        if (data && data.length > 0) {
+          setProducts(data);
+        } else {
+          setProducts(fallbackProducts);
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setProducts(fallbackProducts);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleAddToCart = async (product: Product) => {
+    if (!isAuthenticated) {
+      setSnackbar({
+        open: true,
+        message: "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.",
+        severity: "info",
+      });
+      setTimeout(() => navigate("/auth/login"), 1500);
+      return;
+    }
+
+    const prodId = Number(product.product_id || product.id);
+    setAddingId(prodId);
+
+    try {
+      await cartService.addToCart({
+        product_id: prodId,
+        productId: prodId,
+        quantity: 1,
+      });
+      await refreshCartCount();
+      setSnackbar({
+        open: true,
+        message: `Đã thêm "${product.name || product.title}" vào giỏ hàng!`,
+        severity: "success",
+      });
+    } catch (err) {
+      console.error("Add to cart error:", err);
+      setSnackbar({
+        open: true,
+        message: "Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.",
+        severity: "error",
+      });
+    } finally {
+      setAddingId(null);
+    }
+  };
+
+  const filteredAndSortedProducts = useMemo(() => {
+    let result = [...products];
+
+    // Filter by price
+    result = result.filter((p) => {
+      const pPrice = typeof p.price === "number" ? p.price : parseFloat(p.price as string) || 0;
+      return pPrice >= priceRange[0] && pPrice <= priceRange[1];
+    });
+
+    // Sort
+    if (sortBy === "low-to-high") {
+      result.sort((a, b) => {
+        const priceA = typeof a.price === "number" ? a.price : parseFloat(a.price as string) || 0;
+        const priceB = typeof b.price === "number" ? b.price : parseFloat(b.price as string) || 0;
+        return priceA - priceB;
+      });
+    } else if (sortBy === "high-to-low") {
+      result.sort((a, b) => {
+        const priceA = typeof a.price === "number" ? a.price : parseFloat(a.price as string) || 0;
+        const priceB = typeof b.price === "number" ? b.price : parseFloat(b.price as string) || 0;
+        return priceB - priceA;
+      });
+    }
+
+    return result;
+  }, [products, priceRange, sortBy]);
   return (
     <Box sx={{ pt: { xs: 12, md: 16 }, pb: 10 }}>
       {/* Editorial Header */}
@@ -192,10 +299,11 @@ export const ProductListing = () => {
               </Typography>
               <Box sx={{ px: 1 }}>
                 <Slider
-                  defaultValue={[100000, 2000000]}
-                  min={100000}
-                  max={2000000}
-                  step={50000}
+                  value={priceRange}
+                  onChange={(_, val) => setPriceRange(val as number[])}
+                  min={0}
+                  max={1000000}
+                  step={20000}
                   sx={{ color: "primary.main" }}
                 />
                 <Box
@@ -209,13 +317,13 @@ export const ProductListing = () => {
                     variant="caption"
                     sx={{ color: "text.secondary", fontWeight: 600 }}
                   >
-                    100.000đ
+                    {priceRange[0].toLocaleString("vi-VN")}đ
                   </Typography>
                   <Typography
                     variant="caption"
                     sx={{ color: "text.secondary", fontWeight: 600 }}
                   >
-                    2.000.000đ
+                    {priceRange[1].toLocaleString("vi-VN")}đ
                   </Typography>
                 </Box>
               </Box>
@@ -223,6 +331,7 @@ export const ProductListing = () => {
               <Button
                 fullWidth
                 variant="contained"
+                onClick={() => setPriceRange([0, 1000000])}
                 sx={{
                   mt: 4,
                   backgroundColor: "surfaceContainerHighest",
@@ -234,7 +343,7 @@ export const ProductListing = () => {
                   "&:hover": { backgroundColor: "primary.light" },
                 }}
               >
-                ÁP DỤNG LỌC
+                ĐẶT LẠI BỘ LỌC
               </Button>
             </Box>
           </Grid>
@@ -256,7 +365,7 @@ export const ProductListing = () => {
                 variant="body2"
                 sx={{ fontStyle: "italic", color: "text.secondary" }}
               >
-                Hiển thị 10 sản phẩm tinh tuyển
+                Hiển thị {filteredAndSortedProducts.length} sản phẩm tinh tuyển
               </Typography>
               <Box
                 sx={{
@@ -280,9 +389,10 @@ export const ProductListing = () => {
                 >
                   Sắp xếp:
                 </Typography>
-                <FormControl variant="standard" sx={{ minWidth: 120 }}>
+                <FormControl variant="standard" sx={{ minWidth: 150 }}>
                   <Select
-                    defaultValue="featured"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
                     sx={{
                       fontSize: "0.875rem",
                       fontWeight: 700,
@@ -299,13 +409,38 @@ export const ProductListing = () => {
             </Box>
 
             {/* Grid */}
-            <Grid container spacing={4}>
-              {products.map((product, index) => (
-                <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
-                  <ProductCard {...product} />
-                </Grid>
-              ))}
-            </Grid>
+            {loading ? (
+              <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
+                <CircularProgress color="primary" />
+              </Box>
+            ) : filteredAndSortedProducts.length === 0 ? (
+              <Box sx={{ textAlign: "center", py: 8 }}>
+                <Typography variant="h6" color="text.secondary">
+                  Không tìm thấy sản phẩm nào trong khoảng giá này.
+                </Typography>
+              </Box>
+            ) : (
+              <Grid container spacing={4}>
+                {filteredAndSortedProducts.map((product, index) => {
+                  const prodId = product.product_id || product.id || index;
+                  return (
+                    <Grid key={prodId} size={{ xs: 12, sm: 6, md: 4, lg: 4 }}>
+                      <ProductCard
+                        image={productService.getImageUrl(product.image, matong)}
+                        title={product.name || product.title || "Sản phẩm"}
+                        description={product.description || "Đặc sản truyền thống từ thiên nhiên."}
+                        price={productService.formatPrice(product.price)}
+                        unit={product.unit || (product.quantity ? `${product.quantity} sản phẩm` : "Hộp")}
+                        badge={product.badge || { label: "Đặc sản", type: "bestseller" }}
+                        actionType="add"
+                        loading={addingId === (product.product_id || product.id)}
+                        onAddToCart={() => handleAddToCart(product)}
+                      />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            )}
 
             {/* Load More */}
             <Box
@@ -325,25 +460,6 @@ export const ProductListing = () => {
                   opacity: 0.2,
                 }}
               />
-              <Button
-                variant="outlined"
-                sx={{
-                  px: 6,
-                  py: 2,
-                  borderWidth: "2px",
-                  borderColor: "primary.main",
-                  color: "primary.main",
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  "&:hover": {
-                    borderWidth: "2px",
-                    backgroundColor: "primary.main",
-                    color: "#ffffff",
-                  },
-                }}
-              >
-                XEM THÊM SẢN PHẨM
-              </Button>
               <Typography
                 variant="caption"
                 sx={{
@@ -353,12 +469,27 @@ export const ProductListing = () => {
                   color: "outlineVariant",
                 }}
               >
-                Bạn đã xem 6 trên 24 sản phẩm
+                Hiển thị {filteredAndSortedProducts.length} sản phẩm
               </Typography>
             </Box>
           </Grid>
         </Grid>
       </Container>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+          severity={snackbar.severity}
+          sx={{ width: "100%", borderRadius: 2 }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

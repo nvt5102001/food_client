@@ -12,9 +12,11 @@ interface ProductCardProps {
     type: 'organic' | 'gift' | 'bestseller';
   };
   actionType?: 'add' | 'view';
+  onAddToCart?: () => void;
+  loading?: boolean;
 }
 
-export const ProductCard = ({ image, title, description, price, unit, badge, actionType = 'add' }: ProductCardProps) => {
+export const ProductCard = ({ image, title, description, price, unit, badge, actionType = 'add', onAddToCart, loading }: ProductCardProps) => {
   const getBadgeColor = () => {
     switch (badge?.type) {
       case 'organic': return 'tertiary.main';
@@ -70,6 +72,8 @@ export const ProductCard = ({ image, title, description, price, unit, badge, act
           <Button
             fullWidth
             variant="contained"
+            disabled={loading}
+            onClick={onAddToCart}
             startIcon={actionType === 'add' ? <Icon.ShoppingBasket sx={{ fontSize: '1.2rem' }} /> : <Icon.Visibility sx={{ fontSize: '1.2rem' }} />}
             sx={{
               backgroundColor: '#ffffff',
@@ -81,7 +85,7 @@ export const ProductCard = ({ image, title, description, price, unit, badge, act
               }
             }}
           >
-            {actionType === 'add' ? 'Thêm vào giỏ' : 'Xem nhanh'}
+            {loading ? 'Đang thêm...' : (actionType === 'add' ? 'Thêm vào giỏ' : 'Xem nhanh')}
           </Button>
         </Box>
 
